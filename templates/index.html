@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<section class="hero">
+    <div>
+        <span class="pill reveal"><span class="dot"></span>Open to opportunities</span>
+        <h1 class="reveal d1">Hi, I'm <span class="grad-text">{{ me.name }}</span></h1>
+        <div class="typed reveal d2"><span id="typed" data-words='{{ me.roles|tojson }}'></span><span class="caret"></span></div>
+        <p class="lead reveal d3">{{ me.about }}</p>
+        <div class="hero-cta reveal d4">
+            <a class="btn" href="{{ url_for('profile') }}">View my profile →</a>
+            <a class="btn ghost" href="#works">Explore my works</a>
+            <a class="btn ghost" href="{{ url_for('contact') }}">Say hello</a>
+        </div>
+        <div class="stats reveal d4">
+            <div><b data-count="{{ works_list|length }}">0</b><span>Programming works</span></div>
+            <div><b data-count="{{ me.skills|length }}">0</b><span>Core skills</span></div>
+            <div><b data-count="100" data-suffix="%">0</b><span>Passion</span></div>
+        </div>
+    </div>
+    <div class="avatar-wrap reveal d2">
+        <div class="avatar">
+            {% if has_photo %}<img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="{{ me.name }}">
+            {% else %}<span class="initials">{{ me.initials }}</span>{% endif %}
+        </div>
+        <span class="float-chip c1">🐍 Python</span>
+        <span class="float-chip c2">🌶️ Flask</span>
+        <span class="float-chip c3">🎨 CSS</span>
+    </div>
+</section>
+
+<section class="section" id="works">
+    <div class="reveal">
+        <span class="eyebrow">Programming works</span>
+        <h2 class="section-title">Things I've <span class="grad-text">built</span></h2>
+        <p class="section-sub">Small, interactive programs that show how I think. Pick one and give it a try.</p>
+    </div>
+    <div class="works-grid">
+        {% for w in works_list %}
+        <a href="{{ url_for(w.url) }}" class="card hover work-card reveal d{{ loop.index }}">
+            <div class="icon">{{ w.icon }}</div>
+            <span class="tag">{{ w.tag }}</span>
+            <h3>{{ w.title }}</h3>
+            <p>{{ w.desc }}</p>
+            <span class="arrow">Open →</span>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section reveal">
+    <div class="motto"><small>My motto</small>{{ me.motto }}</div>
+</section>
+{% endblock %}
